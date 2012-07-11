@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mx.meido.simpleshorturl.db.mongodb.MongoDbDAO;
+import mx.meido.simpleshorturl.util.ShortUrlGen;
 import mx.meido.tools.util.PropertyBundle;
 
 /**
@@ -16,10 +17,12 @@ import mx.meido.tools.util.PropertyBundle;
 public final class UrlRedirectServlet extends HttpServlet {
 	private static final long serialVersionUID = 3671843701429536982L;
 	
-	private static PropertyBundle props;
+	public static PropertyBundle props;
 	private static final String CONFIG_FILE = "/WEB-INF/config.properties";
 	
-	private MongoDbDAO dbdao;
+	public static MongoDbDAO dbdao;
+	
+	public static ShortUrlGen shortUrlGen;
 	
 	/**
      * @see HttpServlet#HttpServlet()
@@ -33,6 +36,8 @@ public final class UrlRedirectServlet extends HttpServlet {
     	super.init(config);
     	props = new PropertyBundle(config.getServletContext().getRealPath("/")+CONFIG_FILE);
     	dbdao = new MongoDbDAO(props);
+    	log("UrlServlet Initialized!");
+    	UrlRedirectServlet.shortUrlGen = new ShortUrlGen(dbdao);
     }
 
 	/**
@@ -45,8 +50,13 @@ public final class UrlRedirectServlet extends HttpServlet {
 		String fullUrl = dbdao.getFullUrl(path);
 		log("f: "+fullUrl);
 		
-		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-		response.setHeader("Location", fullUrl);
+		if(fullUrl != null){
+			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+			response.setHeader("Location", fullUrl);
+		}else{
+			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+			response.setHeader("Location", props.get("admin-url"));
+		}
 	}
 	
 	private String apartShortUrl(String uri){
