@@ -1,18 +1,13 @@
 package mx.meido.simpleshorturl.action;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import mx.meido.simpleshorturl.listener.SimpleShortUrlContextListener;
 import mx.meido.simpleshorturl.servlet.UrlRedirectServlet;
+import mx.meido.simpleshorturl.util.db.MongoDbDAOFactory;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.HandlesEvent;
 import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
 
 //@UrlBinding("/s/")
 public class ShortUrlAction implements ActionBean {
@@ -62,17 +57,17 @@ public class ShortUrlAction implements ActionBean {
 			if(!this.fullUrl.startsWith("http://") && !this.fullUrl.startsWith("https://"))
 				url = "http://"+url;
 			
-			String urlInDb = UrlRedirectServlet.dbdao.getShortUrl(url);
+			String urlInDb = MongoDbDAOFactory.getInstance().getShortUrl(url);
 			//还没有
 			if(urlInDb == null){
 				urlInDb = UrlRedirectServlet.shortUrlGen.genAndSaveShortUrl();
-				UrlRedirectServlet.dbdao.insertUrl(url, urlInDb, "111111");
+				MongoDbDAOFactory.getInstance().insertUrl(url, urlInDb, "111111");
 				msg = "成功缩短url，短链接管理名为：<b>"+urlInDb+"</b> 密码为111111，短链接如下：";
-				shortUrl = UrlRedirectServlet.props.get("main-url")+urlInDb;
+				shortUrl = SimpleShortUrlContextListener.getProps().get("main-url")+urlInDb;
 				return new ForwardResolution(SUCCESS_PAGE);
 			}else{//已经存在
 				msg = "该Url已经存在，短链接如下：";
-				shortUrl = UrlRedirectServlet.props.get("main-url")+urlInDb;
+				shortUrl = SimpleShortUrlContextListener.getProps().get("main-url")+urlInDb;
 				return new ForwardResolution(SUCCESS_PAGE);
 			}
 		} catch (Exception e) {
