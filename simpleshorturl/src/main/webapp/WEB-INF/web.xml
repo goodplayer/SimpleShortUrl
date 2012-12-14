@@ -49,7 +49,6 @@
 		<display-name>UrlRedirectServlet</display-name>
 		<servlet-name>UrlRedirectServlet</servlet-name>
 		<servlet-class>mx.meido.simpleshorturl.servlet.UrlRedirectServlet</servlet-class>
-		<load-on-startup>10</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>UrlRedirectServlet</servlet-name>

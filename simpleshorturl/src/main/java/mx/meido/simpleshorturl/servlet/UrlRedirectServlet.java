@@ -39,15 +39,19 @@ public final class UrlRedirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getRequestURI();
 		
-		if(path.indexOf(request.getContextPath())==0){
+//		log("p: "+path);
+//		log("context path: "+request.getContextPath());
+		
+		String contextPath = request.getContextPath();
+		if(contextPath.length() > 1 && path.indexOf(contextPath)==0){
 			path = apartShortUrl(path);
 		}else{
 			path = path.substring(3);
 		}
 		
-		log("s: "+path);
+//		log("s: "+path);
 		String fullUrl = MongoDbDAOFactory.getInstance().getFullUrl(path);
-		log("f: "+fullUrl);
+//		log("f: "+fullUrl);
 		
 		if(fullUrl != null){
 			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
