@@ -80,6 +80,15 @@ public class MongoDbDAO {
 		}
 	}
 	
+	/**
+	 * 关闭Dao<br />
+	 * DO NOT DO THIS IN YOUR CODE , IT MAY CAUSE FACTORY ERROR
+	 */
+	public void close(){
+		if(mongo != null)
+			mongo.close();
+	}
+	
 	//初始化某些关键点
 	private void init(){
 		DB db = mongo.getDB(db_name);
