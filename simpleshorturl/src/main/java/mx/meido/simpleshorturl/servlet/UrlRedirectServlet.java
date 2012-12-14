@@ -1,6 +1,7 @@
 package mx.meido.simpleshorturl.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mx.meido.simpleshorturl.listener.SimpleShortUrlContextListener;
-import mx.meido.simpleshorturl.util.ShortUrlGen;
 import mx.meido.simpleshorturl.util.db.MongoDbDAOFactory;
 
 /**
@@ -16,8 +16,6 @@ import mx.meido.simpleshorturl.util.db.MongoDbDAOFactory;
  */
 public final class UrlRedirectServlet extends HttpServlet {
 	private static final long serialVersionUID = 3671843701429536982L;
-	
-	public static ShortUrlGen shortUrlGen;
 	
 	/**
      * @see HttpServlet#HttpServlet()
@@ -29,8 +27,7 @@ public final class UrlRedirectServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	log("UrlServlet Initialized!");
-    	UrlRedirectServlet.shortUrlGen = new ShortUrlGen(MongoDbDAOFactory.getInstance());
+//    	log("UrlServlet Initialized!");
     }
 
 	/**

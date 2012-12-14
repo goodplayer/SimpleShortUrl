@@ -8,5 +8,7 @@
 </head>
 <body>
 <h1>您没有输入任何东西，请返回填写要缩短的URL!</h1>
+<br />
+<a href="javascript: history.go(-1)">返回</a>
 </body>
 </html>

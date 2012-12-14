@@ -8,5 +8,7 @@
 </head>
 <body>
 <h1>服务器出现错误，请稍候再试!如果还不行，请联系管理员</h1>
+<br />
+<a href="javascript: history.go(-1)">返回</a>
 </body>
 </html>

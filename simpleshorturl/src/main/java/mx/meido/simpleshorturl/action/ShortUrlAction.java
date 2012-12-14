@@ -2,6 +2,7 @@ package mx.meido.simpleshorturl.action;
 
 import mx.meido.simpleshorturl.listener.SimpleShortUrlContextListener;
 import mx.meido.simpleshorturl.servlet.UrlRedirectServlet;
+import mx.meido.simpleshorturl.util.ShortUrlGenFactory;
 import mx.meido.simpleshorturl.util.db.MongoDbDAOFactory;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -60,7 +61,7 @@ public class ShortUrlAction implements ActionBean {
 			String urlInDb = MongoDbDAOFactory.getInstance().getShortUrl(url);
 			//还没有
 			if(urlInDb == null){
-				urlInDb = UrlRedirectServlet.shortUrlGen.genAndSaveShortUrl();
+				urlInDb = ShortUrlGenFactory.getInstance().genAndSaveShortUrl();
 				MongoDbDAOFactory.getInstance().insertUrl(url, urlInDb, "111111");
 				msg = "成功缩短url，短链接管理名为：<b>"+urlInDb+"</b> 密码为111111，短链接如下：";
 				shortUrl = SimpleShortUrlContextListener.getProps().get("main-url")+urlInDb;
