@@ -42,7 +42,7 @@ public final class UrlRedirectServlet extends HttpServlet {
 		if(path.indexOf(request.getContextPath())==0){
 			path = apartShortUrl(path);
 		}else{
-			path = path.substring(2);
+			path = path.substring(3);
 		}
 		
 		log("s: "+path);

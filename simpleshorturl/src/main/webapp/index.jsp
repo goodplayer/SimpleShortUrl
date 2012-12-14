@@ -8,5 +8,6 @@
 </head>
 <body>
 <h1>欢迎使用ShortUrl服务</h1>
+<a href="submiturl.jsp">填写要缩写url</a>
 </body>
 </html>
